@@ -1,0 +1,5 @@
+T-Shirt,Cotton shirt,150.00,shirt1.jpg
+Jeans,Blue denim,300.00,jeans1.jpg
+Dress,Summer dress,250.00,dress1.jpg
+Sneakers,White shoes,400.00,shoes1.jpg
+Jacket,Winter jacket,500.00,jacket1.jpg
