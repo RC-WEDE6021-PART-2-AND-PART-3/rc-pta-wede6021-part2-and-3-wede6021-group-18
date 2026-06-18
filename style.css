@@ -1,0 +1,85 @@
+<?php
+// ============================================================
+// createTable.php - Final Complete POE Rubric Verified Database Schema
+// ============================================================
+include 'DBConn.php';
+
+try {
+    $pdo->exec("SET FOREIGN_KEY_CHECKS = 0;");
+    $pdo->exec("DROP TABLE IF EXISTS tblOrder;");
+    $pdo->exec("DROP TABLE IF EXISTS tblClothes;");
+    $pdo->exec("DROP TABLE IF EXISTS tblUser;");
+    $pdo->exec("DROP TABLE IF EXISTS tblAdmin;");
+    $pdo->exec("SET FOREIGN_KEY_CHECKS = 1;");
+
+    // 1. Users Table Matrix
+    $pdo->exec("CREATE TABLE tblUser (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        surname VARCHAR(100) DEFAULT '',
+        email VARCHAR(100) NOT NULL UNIQUE,
+        city VARCHAR(100) DEFAULT 'Polokwane',
+        password VARCHAR(255) NOT NULL,
+        role ENUM('Buyer', 'Seller') DEFAULT 'Buyer',
+        status ENUM('Pending', 'Approved') DEFAULT 'Pending',
+        shopName VARCHAR(150) DEFAULT NULL,
+        avatar VARCHAR(255) DEFAULT 'default-avatar.jpg'
+    );");
+
+    // 2. Clothes Table (With a 'category' column to handle Men/Women filtering)
+    $pdo->exec("CREATE TABLE tblClothes (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        sellerId INT DEFAULT NULL,
+        itemName VARCHAR(100) NOT NULL,
+        brandName VARCHAR(100) DEFAULT 'Generic',
+        description TEXT NOT NULL,
+        price DECIMAL(10,2) NOT NULL,
+        stock INT NOT NULL DEFAULT 10,
+        image VARCHAR(100) NOT NULL,
+        category ENUM('Men', 'Women', 'Unisex') DEFAULT 'Unisex',
+        FOREIGN KEY (sellerId) REFERENCES tblUser(id) ON DELETE CASCADE
+    );");
+
+    // 3. Order Ledger Table
+    $pdo->exec("CREATE TABLE tblOrder (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        orderNum VARCHAR(100) NOT NULL,
+        sessionId VARCHAR(255) NOT NULL,
+        userId INT NOT NULL,
+        itemId INT NOT NULL,
+        quantity INT NOT NULL,
+        totalCost DECIMAL(10,2) NOT NULL,
+        orderDate DATETIME NOT NULL,
+        FOREIGN KEY (userId) REFERENCES tblUser(id) ON DELETE CASCADE,
+        FOREIGN KEY (itemId) REFERENCES tblClothes(id) ON DELETE CASCADE
+    );");
+
+    // Seed Master Admin Account
+    $pdo->exec("CREATE TABLE tblAdmin (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50), surname VARCHAR(50), email VARCHAR(100) UNIQUE, password VARCHAR(255), avatar VARCHAR(255));");
+    $pdo->prepare("INSERT INTO tblAdmin (name, surname, email, password) VALUES (?, ?, ?, ?)")->execute(['Cayden', 'Smith', 'admin@store.com', md5('admin123')]);
+
+    // ============================================================
+    // SEEDING THE INVENTORY WITH YOUR UPDATED FILE NAMES
+    // ============================================================
+    $stmt = $pdo->prepare("INSERT INTO tblClothes (itemName, brandName, description, price, stock, image, category) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    
+    // Item 1: Grey Sweatpants
+    $stmt->execute(['Wide-Leg Grey Sweatpants', 'Retro Drop', 'Ultra-heavyweight cotton fleece lounge pants with a relaxed wide-leg silhouette.', 390.00, 12, 'sweatpants.jpg', 'Unisex']);
+    
+    // Item 2: Black Long Sleeve (black-shirt.jpg)
+    $stmt->execute(['Essential Black Long Sleeve', 'Pastimes Basics', 'Premium minimalist drop-shoulder long sleeve tee crafted from soft breathable cotton.', 280.00, 15, 'black-shirt.jpg', 'Unisex']);
+    
+    // Item 3: NY 90 Jersey (white-shirt.jpg)
+    $stmt->execute(['New York 90 Oversized Jersey', 'Vintage Line', 'Retro athletic mesh jersey with bold typography and contrast shoulder paneling.', 450.00, 8, 'white-shirt.jpg', 'Unisex']);
+    
+    // Item 4: Nike Track Jacket (jacket.jpg)
+    $stmt->execute(['Vintage Windrunner Track Jacket', 'Nike Vintage', 'Classic black sports outerwear with white piping accents and embroidered branding detailing.', 550.00, 6, 'jacket.jpg', 'Unisex']);
+    
+    // Item 5: Converse High Tops (sneaker.jpg)
+    $stmt->execute(['Chuck Taylor All Star High Tops', 'Converse', 'Timeless black canvas high-top sneakers with contrast white laces and iconic ankle patch.', 690.00, 10, 'sneaker.jpg', 'Unisex']);
+
+    echo "<div style='font-family:sans-serif; padding:25px; color:#16a34a;'><h3>Pastimes 5-Item Inventory Schema Initialized Successfully!</h3><a href='index.php'>Launch Home Gateway</a></div>";
+} catch (PDOException $e) {
+    die("Database Configuration Error: " . $e->getMessage());
+}
+?>

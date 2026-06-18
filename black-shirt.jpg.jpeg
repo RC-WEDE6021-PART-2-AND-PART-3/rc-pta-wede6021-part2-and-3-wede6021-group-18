@@ -1,0 +1,37 @@
+<?php
+
+$host    = 'localhost';
+$db      = 'clothingstore'; 
+$user    = 'root';            
+$pass    = '';                
+$charset = 'utf8mb4';
+
+$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false,
+];
+
+try {
+    $pdo = new PDO($dsn, $user, $pass, $options);
+} catch (\PDOException $e) {
+    // If database does not exist, initialize it safely
+    if ($e->getCode() === 1049) {
+        $rawPdo = new PDO("mysql:host=$host;charset=$charset", $user, $pass, $options);
+        $rawPdo->exec("CREATE DATABASE IF NOT EXISTS `$db` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci");
+        $pdo = new PDO($dsn, $user, $pass, $options);
+    } else {
+        throw new \PDOException($e->getMessage(), (int)$e->getCode());
+    }
+}
+
+function getWatermarkClass() {
+    $current = basename($_SERVER['PHP_SELF']);
+    // The background brand text element will only load on these two specified files
+    if ($current === 'login.php' || $current === 'register.php') {
+        return "watermark-bg-active"; // Map this class token signature to your CSS rule
+    }
+    return ""; // Clear backdrop parameters completely on all other marketplace spaces
+}
