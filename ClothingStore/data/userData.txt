@@ -1,0 +1,5 @@
+John Doe,j.doe@abc.co.za,29ef52e7563626a96cea7f4b4085c124,Pending
+Jane Smith,jane@gmail.com,202cb962ac59075b964b07152d234b70,Approved
+Mike Brown,mike@yahoo.com,5f4dcc3b5aa765d61d8327deb882cf99,Approved
+Sarah Lee,sarah@outlook.com,e10adc3949ba59abbe56e057f20f883e,Pending
+David King,david@mail.com,25d55ad283aa400af464c76d713c07ad,Approved

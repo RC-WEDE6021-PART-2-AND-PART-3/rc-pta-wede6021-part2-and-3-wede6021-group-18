@@ -1,0 +1,285 @@
+:root {
+    --primary-blue: #3b42c4;
+    --nav-bg: #000000;
+    --border-grey: #cccccc;
+    --bg-light: #f9f9f9;
+    --text-dark: #333333;
+    --radius-main: 12px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', 'Arial', sans-serif;
+}
+
+body {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* --- Dynamic Global Watermark Feature --- */
+body.watermarked::before {
+    content: "Pastimes";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    font-size: 12vw;
+    font-weight: 900;
+    color: rgba(0, 0, 0, 0.04); 
+    opacity: 0.4; /* Exact 40% configuration constraint */
+    z-index: -1;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+/* --- Section 1: Sticky Navigation Header --- */
+.navbar {
+    background-color: var(--nav-bg);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar h1 {
+    color: #ffffff;
+    font-size: 1.6rem;
+    font-weight: 800;
+}
+
+.navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.navbar-links a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.navbar-links a:hover {
+    text-decoration: underline;
+}
+
+.btn-pill {
+    background-color: var(--primary-blue);
+    color: #ffffff !important;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+}
+
+/* --- Layout Grid Workspaces --- */
+.container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    flex: 1;
+}
+
+.card {
+    background: #ffffff;
+    border: 1px solid var(--border-grey);
+    padding: 30px;
+    border-radius: var(--radius-main);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    margin-bottom: 30px;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--text-dark);
+}
+
+/* --- Form Formatting & Clean Borders --- */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.form-group input, 
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-grey);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: var(--primary-blue);
+}
+
+/* --- Royal Blue Action Elements --- */
+.btn-primary {
+    background-color: var(--primary-blue);
+    color: #ffffff;
+    border: none;
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 6px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary:hover {
+    background-color: #2e34a3;
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--text-dark);
+    border: 1px solid var(--border-grey);
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+}
+
+/* --- Tables & Lists --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-grey);
+}
+
+th {
+    background-color: #f1f5f9;
+    font-weight: 600;
+}
+
+/* --- Sub-Tab Navigation System --- */
+.tabs-nav {
+    display: flex;
+    gap: 10px;
+    border-bottom: 1px solid var(--border-grey);
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-weight: 600;
+    color: #666666;
+}
+
+.tab-btn.active {
+    color: var(--primary-blue);
+    border-bottom: 2px solid var(--primary-blue);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* --- Status Badges --- */
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.status-approved { background-color: #e6f4ea; color: #137333; }
+.status-pending { background-color: #fef7e0; color: #b06000; }
+
+.message {
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.message.error { background-color: #fce8e6; color: #c5221f; border: 1px solid #fad2cf; }
+.message.success { background-color: #e6f4ea; color: #137333; border: 1px solid #c2e7cc; }
+
+/* --- Section 5: Inverted 4-Column Footer --- */
+footer {
+    background-color: var(--nav-bg);
+    color: #ffffff;
+    padding: 40px 20px 20px 20px;
+    margin-top: auto;
+}
+
+.footer-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+    padding-bottom: 30px;
+}
+
+.footer-col h4 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    color: #ffffff;
+}
+
+.footer-col p, .footer-col a {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    text-decoration: none;
+    line-height: 1.6;
+}
+
+.footer-col ul {
+    list-style: none;
+}
+
+.footer-col ul li {
+    margin-bottom: 8px;
+}
+
+.footer-col ul li a:hover {
+    color: #ffffff;
+}
+
+.footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    border-top: 1px solid #334155;
+    padding-top: 20px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
